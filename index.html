@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Quiz Challenge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+    <!-- Particle Canvas Background -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Top Controls -->
+    <div class="top-controls">
+        <button id="themeToggle" class="icon-btn" title="Toggle Theme">🌙</button>
+        <button id="muteBtn" class="icon-btn" title="Toggle Sound">🔊</button>
+    </div>
+
+    <!-- START SCREEN -->
+    <div class="card" id="startScreen">
+        <div class="logo-container">
+            <div class="logo-ring"></div>
+            <span class="logo-icon">🧠</span>
+        </div>
+        <h1>Smart Quiz<br><span class="accent">Challenge</span></h1>
+        <p class="subtitle">Level up your web dev knowledge</p>
+
+        <input type="text" id="username" placeholder="Your name..." autocomplete="off" maxlength="20">
+
+        <div class="section-label">Choose Category</div>
+        <div class="category-grid">
+            <button class="cat-btn active" data-cat="all">🌐 All</button>
+            <button class="cat-btn" data-cat="html">📄 HTML</button>
+            <button class="cat-btn" data-cat="css">🎨 CSS</button>
+            <button class="cat-btn" data-cat="js">⚡ JS</button>
+        </div>
+
+        <div class="section-label">Difficulty</div>
+        <div class="difficulty-grid">
+            <button class="diff-btn active" data-diff="easy">😊 Easy</button>
+            <button class="diff-btn" data-diff="medium">🔥 Medium</button>
+            <button class="diff-btn" data-diff="hard">💀 Hard</button>
+        </div>
+
+        <button id="startBtn" class="primary-btn">
+            <span>Start Quiz</span>
+            <span class="btn-arrow">→</span>
+        </button>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div class="card hidden slide-in" id="quizScreen">
+        <div class="quiz-header">
+            <div class="score-pill">
+                <span class="pill-label">Score</span>
+                <span id="score">0</span>
+            </div>
+            <div id="streakDisplay" class="streak-display hidden"></div>
+            <div class="timer-ring-wrap">
+                <svg class="timer-ring" viewBox="0 0 44 44">
+                    <circle class="ring-bg" cx="22" cy="22" r="18"/>
+                    <circle id="ringCircle" class="ring-fill" cx="22" cy="22" r="18"/>
+                </svg>
+                <span id="timer">10</span>
+            </div>
+        </div>
+
+        <div class="progress-track">
+            <div id="progressBar"></div>
+            <span id="progressLabel">1 / 5</span>
+        </div>
+
+        <div class="powerup-bar">
+            <button id="lifeline5050" class="powerup-btn" title="Remove 2 wrong answers">
+                <span class="powerup-icon">⚡</span> 50/50
+            </button>
+            <button id="skipBtn" class="powerup-btn" title="Skip this question">
+                <span class="powerup-icon">⏭</span> Skip
+            </button>
+            <button id="doubleBtn" class="powerup-btn" title="Double points this round">
+                <span class="powerup-icon">💎</span> 2x
+            </button>
+        </div>
+
+        <div class="question-wrap" id="questionWrap">
+            <div class="q-meta">
+                <span id="categoryBadge" class="cat-badge">HTML</span>
+                <span id="diffBadge" class="diff-badge">Easy</span>
+            </div>
+            <h2 id="question">Loading...</h2>
+        </div>
+
+        <div id="options" class="options-grid"></div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div class="card hidden" id="resultScreen">
+        <div class="result-header">
+            <div id="resultEmoji" class="result-emoji">🎉</div>
+            <h1>Quiz Done!</h1>
+            <div class="final-score-wrap">
+                <span class="final-score-num" id="finalScore">0</span>
+                <span class="final-score-label">points</span>
+            </div>
+            <p id="performanceMessage"></p>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-box">
+                <span class="stat-num" id="statCorrect">0</span>
+                <span class="stat-label">Correct</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-num" id="statAccuracy">0%</span>
+                <span class="stat-label">Accuracy</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-num" id="statBest">0</span>
+                <span class="stat-label">Best Streak</span>
+            </div>
+        </div>
+
+        <!-- Per-question review -->
+        <div class="review-section">
+            <div class="review-toggle" id="reviewToggle">📋 Review Answers <span>▼</span></div>
+            <div id="reviewList" class="review-list hidden"></div>
+        </div>
+
+        <div class="leaderboard-container">
+            <h3>🏆 Top Scholars</h3>
+            <ul id="leaderboard"></ul>
+        </div>
+
+        <button id="restartBtn" class="primary-btn" onclick="location.reload()">
+            <span>Play Again</span>
+            <span class="btn-arrow">↺</span>
+        </button>
+    </div>
+
+    <!-- Feedback Popup -->
+    <div id="popup" class="popup"></div>
+
+    <!-- Combo Overlay -->
+    <div id="comboOverlay" class="combo-overlay hidden"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
